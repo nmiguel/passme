@@ -29,8 +29,6 @@ type listModel struct {
 }
 
 func InitialModel() listModel {
-	//TODO: load all keys from file
-
 	keys, err := data.GetAllKeys()
 	if err != nil {
 		log.Fatalf("could not get keys: %v", err)
@@ -50,6 +48,10 @@ func (m listModel) Sync() tea.Model {
 	m.keys = keys
 	if err != nil {
 		log.Fatalf("could not get keys: %v", err)
+	}
+
+	if m.cursor >= len(m.keys) {
+		m.cursor = len(m.keys) -1
 	}
 
 	return m
