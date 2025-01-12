@@ -3,6 +3,7 @@ module passme
 go 1.23.1
 
 require (
+	github.com/agnivade/levenshtein v1.2.0
 	github.com/atotto/clipboard v0.1.4
 	github.com/charmbracelet/bubbles v0.20.0
 	github.com/charmbracelet/bubbletea v1.1.0
