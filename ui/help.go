@@ -43,7 +43,11 @@ func (m HelpModel) View() string {
 			},
 			[]string{
 				"e",
-				"Edit the key under the cursor",
+				"Edit the token under the cursor",
+			},
+			[]string{
+				"d",
+				"Delete the token under the cursor",
 			},
 			[]string{
 				"q",
