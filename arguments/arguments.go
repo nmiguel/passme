@@ -3,9 +3,10 @@ package arguments
 import (
 	"fmt"
 	"os"
+	"passme/arguments/add"
 	"passme/arguments/copy"
-	"passme/arguments/help"
 	"passme/arguments/flag"
+	"passme/arguments/help"
 	"slices"
 )
 
@@ -13,6 +14,7 @@ var (
 	flags     []flag.Flag
 	helpFlag  flag.Flag
 	copyFlag  flag.Flag
+	addFlag  flag.Flag
 )
 
 func init() {
@@ -26,11 +28,17 @@ func init() {
 
 	copyFlag = flag.Flag{
 		Alias:    []string{"copy", "c"},
-		Tooltip: "Copies the given token name into the clipboard, bypassing the UI",
+		Tooltip: "Copies the given token name into the clipboard.\nUsage: passme copy <token_alias>",
 		Callback: copy.Callback,
 	}
 
-	flags = []flag.Flag{copyFlag, helpFlag}
+	addFlag = flag.Flag{
+		Alias:    []string{"add", "a"},
+		Tooltip: "Add a new token directly.\nUsage: passme add <token_alias> <token>",
+		Callback: add.Callback,
+	}
+
+	flags = []flag.Flag{copyFlag, helpFlag, addFlag}
 }
 
 func GetAvailableFlags() []flag.Flag {
