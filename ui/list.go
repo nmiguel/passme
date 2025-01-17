@@ -51,7 +51,7 @@ func (m listModel) Sync() tea.Model {
 	}
 
 	if m.cursor >= len(m.keys) {
-		m.cursor = len(m.keys) -1
+		m.cursor = len(m.keys) - 1
 	}
 
 	return m
@@ -83,11 +83,14 @@ func (m listModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.keys = append(m.keys[:m.cursor], m.keys[m.cursor+1:]...)
 				},
 				rejectCallback: func() {},
-				previous: m,
+				previous:       m,
 			}, nil
 
 		case "a":
 			return NewAddModel(m), nil
+
+		case "?":
+			return HelpModel{m}, nil
 
 		case "enter", " ":
 			// Copies the selected key's token to clipboard
@@ -119,6 +122,8 @@ func (m listModel) View() string {
 	} else {
 		view += "No saved keys"
 	}
+
+	view += "\n\nhelp: ?"
 
 	return view
 }
