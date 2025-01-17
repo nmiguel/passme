@@ -3,9 +3,9 @@ package ui
 import (
 	"strings"
 
-	"passme/data"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"passme/data"
 )
 
 type ConfirmModel struct {
@@ -44,8 +44,8 @@ func (m ConfirmModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			"tab",
 			"shift+tab":
 			m.cursor = m.cursor*-1 + 1
-		case "enter":
-			if m.cursor == 0 {
+		case "enter", "y", "n":
+			if (msg.String() == "enter" && m.cursor == 0) || msg.String() == "y" {
 				m.acceptCallback()
 			} else {
 				m.rejectCallback()
@@ -54,7 +54,7 @@ func (m ConfirmModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if ok {
 				return sm.Sync(), nil
 			}
-				return m.previous, nil
+			return m.previous, nil
 		}
 
 	}
