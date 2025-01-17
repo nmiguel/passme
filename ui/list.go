@@ -89,6 +89,11 @@ func (m listModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "a":
 			return NewAddModel(m), nil
 
+		case "e":
+			if len(m.keys) > 0 {
+				return NewEditModel(m, m.keys[m.cursor]), nil
+			}
+
 		case "?":
 			return HelpModel{m}, nil
 

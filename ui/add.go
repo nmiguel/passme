@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"log"
 	"passme/data"
 	"strings"
 
@@ -9,8 +10,10 @@ import (
 )
 
 type addModel struct {
-	previous   tea.Model
-	focusIndex int
+	previous      tea.Model
+	focusIndex    int
+	isEdit        bool
+	originalAlias string
 
 	aliasInput textinput.Model
 	tokenInput textinput.Model
@@ -33,6 +36,15 @@ func NewAddModel(prev tea.Model) addModel {
 		aliasInput: alias,
 		tokenInput: token,
 	}
+}
+
+func NewEditModel(prev tea.Model, originalToken data.Key) addModel {
+	add := NewAddModel(prev)
+	add.isEdit = true
+	add.originalAlias = originalToken.Alias
+	add.aliasInput.SetValue(originalToken.Alias)
+	add.tokenInput.SetValue(originalToken.Token)
+	return add
 }
 
 func (m addModel) Init() tea.Cmd {
@@ -65,6 +77,13 @@ func (m addModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return updateFocus(m)
 
 		case "enter":
+			//If we're editing we need to delete the previous key
+			if m.isEdit {
+				err := data.DeleteKey(m.originalAlias)
+				if err != nil {
+					log.Fatal(err.Error())
+				}
+			}
 			err := data.InsertKey(m.aliasInput.Value(), m.tokenInput.Value())
 			if err != nil {
 				// return MessageModel{message: err.Error(), previous: m.previous}, nil
