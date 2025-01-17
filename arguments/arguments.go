@@ -17,7 +17,7 @@ var (
 
 func init() {
 	helpFlag = flag.Flag{
-		Alias:   []string{"help", "h", "-h", "--help"},
+		Alias:   []string{"help", "h"},
 		Tooltip: "Print the help docs",
 		Callback: func(args []string) {
 			help.Callback(args, flags)
@@ -25,7 +25,7 @@ func init() {
 	}
 
 	copyFlag = flag.Flag{
-		Alias:    []string{"copy", "c", "-c", "--copy"},
+		Alias:    []string{"copy", "c"},
 		Tooltip: "Copies the given token name into the clipboard, bypassing the UI",
 		Callback: copy.Callback,
 	}
